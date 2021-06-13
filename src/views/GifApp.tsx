@@ -1,48 +1,48 @@
-import React, { ChangeEvent, useState, useEffect, useRef } from 'react';
-
-import { connect } from 'react-redux';
+import React, { useState, useEffect, useRef } from 'react';
 import { AppState } from '../store/store';
-import { thunkSetGifs, thunkSetGif, thunkUpdateGifs, thunkClearGifs, thunkClearCurrGif } from '../store/actions/gifAction';
+import { thunkSetGifs, thunkUpdateGifs } from '../store/actions/gifAction';
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { GifList } from '../components/GifList';
 
 
-const DEBOUNCE_TIME = 1000;
 
-export const GifApp: React.FC = (props: any) => {
+const DEBOUNCE_TIME = 1000;
+const IMAGES_PER_REQUEST = 9;
+
+export const GifApp: React.FC = () => {
     const [query, setQuery] = useState<string>('');
     const [offset, setOffset] = useState<number>(0);
+    const { gifs } = useSelector((state: AppState) => state.gifApp);
+    const dispatch = useDispatch();
+    const actions = bindActionCreators({ thunkSetGifs, thunkUpdateGifs }, dispatch);
     const debouncer = useRef<unknown>();
     const triggerRef = useRef<any>();
     const observer = useRef<IntersectionObserver>();
 
     useEffect(() => {
         observer.current = new IntersectionObserver((enteries) => {
-            if (enteries[0].isIntersecting) setOffset(prev => prev + 9);
+            if (enteries[0].isIntersecting) setOffset(prev => prev + IMAGES_PER_REQUEST);
         }, { threshold: .9 })
+
     }, [])
 
     useEffect(() => {
-        props.thunkUpdateGifs(query, offset);
+        offset && query && actions.thunkUpdateGifs(query, offset);
     }, [offset])
 
     useEffect(() => {
         clearTimeout(debouncer.current as number);
         debouncer.current = setTimeout(() => {
             setOffset(0);
-            props.thunkSetGifs(query, 0);
+            actions.thunkSetGifs(query, offset);
         }, DEBOUNCE_TIME);
 
     }, [query])
 
     useEffect(() => {
-        if (triggerRef.current) {
-            observer.current?.observe(triggerRef.current);
-        }
+        triggerRef.current && observer.current?.observe(triggerRef.current);
     }, [triggerRef.current])
-
-    useEffect(() => {
-        console.log(props.gifs)
-    }, [props.gifs])
 
     const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(() => target.value);
@@ -52,28 +52,10 @@ export const GifApp: React.FC = (props: any) => {
 
 
     return (
-        <div className="giphy-app-container">
-            <input className="search-input" type="text" onChange={handleChange} />
-            <GifList gifs={props.gifs} thunkSetGif={props.thunkSetGif} />
+        <div className="giphy-app-container flex column">
+            <input className="search-input" placeholder="Search" type="text" onChange={handleChange} />
+            <GifList gifs={gifs} />
             <div className="trigger" ref={triggerRef} style={{ height: '20px' }} />
         </div>
     )
 }
-
-
-const mapStateToProps = (state: AppState) => {
-    return {
-        gifs: state.gifApp.gifs,
-        currGif: state.gifApp.currGif
-    }
-}
-
-const mapDispatchToProps = {
-    thunkSetGifs,
-    thunkSetGif,
-    thunkUpdateGifs,
-    thunkClearGifs,
-    thunkClearCurrGif
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(GifApp);

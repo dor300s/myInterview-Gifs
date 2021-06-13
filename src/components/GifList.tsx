@@ -4,14 +4,13 @@ import { GifPreview } from './GifPreview';
 
 interface IProps {
     gifs: GifInterface[];
-    thunkSetGif: any
 }
 
-export const GifList: React.FC<IProps> = ({ gifs, thunkSetGif }) => {
+export const GifList: React.FC<IProps> = ({ gifs }) => {
 
     return (
         <div className="gif-list-wrapper">
-            {gifs.map(gif => <GifPreview key={gif.id} gif={gif} thunkSetGif={thunkSetGif} />)}
+            {gifs.map(gif => <GifPreview key={gif.id} gif={gif}  />)}
         </div>
     )
 }

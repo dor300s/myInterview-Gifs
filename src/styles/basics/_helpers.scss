@@ -1,16 +1,29 @@
 // Font Sizes
-.fs12 { font-size: rem(12px); }
-.fs14 { font-size: rem(14px); }
-.fs18 { font-size: rem(18px); }
-.fs20 { font-size: rem(20px); }
-.fs24 { font-size: rem(24px); }
-.fs28 { font-size: rem(28px); }
-.fs30 { font-size: rem(30px); }
+.fs12 {
+    font-size: rem(12px);
+}
+.fs14 {
+    font-size: rem(14px);
+}
+.fs18 {
+    font-size: rem(18px);
+}
+.fs20 {
+    font-size: rem(20px);
+}
+.fs24 {
+    font-size: rem(24px);
+}
+.fs28 {
+    font-size: rem(28px);
+}
+.fs30 {
+    font-size: rem(30px);
+}
 
 // flex helpers
 
 .flex {
-
     display: flex;
 
     > *.full {
@@ -25,13 +38,13 @@
     &.align-center {
         align-items: center;
     }
-    &.space-between{
+    &.space-between {
         justify-content: space-between;
     }
-    &.space-evenly{
+    &.space-evenly {
         justify-content: space-evenly;
     }
-    &.space-around{
+    &.space-around {
         justify-content: space-around;
     }
 }
@@ -46,4 +59,12 @@
 }
 .portrait-ratio {
     @include aspect-ratio(9, 16);
+}
+
+.screen {
+    position: fixed;
+    background-color: rgba($color: #000000, $alpha: 0.7);
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
 }

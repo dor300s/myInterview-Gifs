@@ -6,26 +6,26 @@ import { AppState } from "../store";
 import { Action } from "redux";
 
 
-export const setGifs = (gifs: GifInterface[]): GifActionTypes => ({
+const setGifs = (gifs: GifInterface[]): GifActionTypes => ({
     type: "SET_GIFS",
     gifs
 })
 
-export const setGif = (gif: GifInterface): GifActionTypes => ({
+const setGif = (gif: GifInterface): GifActionTypes => ({
     type: "SET_GIF",
     gif
 })
 
-export const updateGifs = (gifs: GifInterface[]): GifActionTypes => ({
+const updateGifs = (gifs: GifInterface[]): GifActionTypes => ({
     type: "UPDATE_GIFS",
     gifs
 })
 
-export const clearGifs = (): GifActionTypes => ({
+const clearGifs = (): GifActionTypes => ({
     type: "CLEAR_GIFS"
 })
 
-export const clearCurrGif = (): GifActionTypes => ({
+const clearCurrGif = (): GifActionTypes => ({
     type: "CLEAR_CURR_GIF"
 })
 
