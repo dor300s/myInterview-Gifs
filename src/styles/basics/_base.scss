@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: montserrat;
+    color: $clr2;
+    // line-height: 1.5em;
+    // text-align: center;
+}
+
+img {
+    width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: caveat;
+    // line-height: 1.2em;
+    // margin: 0 0 rem(20px);
+    color: darken($clr1, 36);
+}
+
+// p {
+//     margin: 0 0 rem(20px);
+//     max-width: 60ch;
+// }
